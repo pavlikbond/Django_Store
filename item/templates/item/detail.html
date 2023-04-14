@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %} {% block title %}{{item.name}}{% endblock title %}{{item.name}} {% block content %}
+<div class="grid grid-cols-5 gap-6">
+    <div class="col-span-3">
+        <img src="{{item.image.url}}" alt="" class="rounded" />
+    </div>
+    <div class="col-span-2 p-6 bg-gray-100 rounded">
+        <h1 class="mb-6 text-3xl">{{item.name}}</h1>
+        <p class="text-gray-500"><strong>Price: </strong>${{item.price}}</p>
+        <p class="text-gray-500"><strong>Seller: </strong>{{item.created_by.username}}</p>
+        {% if item.description %}
+        <p class="text-gray-700"><strong class="text-gray-500">Description:</strong><br />{{item.description}}</p>
+        {% endif %} {% if request.user == item.created_by %}
+        <div class="mt-6 p-6 bg-white rounded">
+            <p>This is your item!</p>
+            <a
+                href="{% url 'item:edit' item.id %}"
+                class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-400 text-white rounded"
+                >Edit</a
+            >
+            <a
+                href="{% url 'item:delete' item.id %}"
+                class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded"
+                >Delete</a
+            >
+        </div>
+        {% else %}
+        <a
+            href="{% url 'conversation:new' item.id %}"
+            class="inline-block mt-6 py-3 px-6 text-lg font-semibold bg-teal-500 text-white rounded hover:bg-teal-600 duration-200"
+            >Contact Seller</a
+        >
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-6 px-6 py-12 bg-gray-100 rounded-md">
+    <h2 class="mb-12 text-2xl text-center">Related Items</h2>
+    <div class="grid grid-cols-3 gap-3">
+        {% for item in related_items %}
+        <div class="bg-white rounded-md shadow-md flex flex-col justify-between">
+            <div class="text-center">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="rounded-t" />
+            </div>
+            <div class="p-4">
+                <div class="">
+                    <h3 class="text-lg font-medium text-center">{{ item.name }}</h3>
+                    <p class="mt-2 text-sm text-center text-gray-500">Price ${{ item.price }}</p>
+                </div>
+                <div class="mt-4">
+                    <a
+                        href="{% url 'item:detail' item.id %}"
+                        class="block w-full px-4 py-2 text-sm font-medium text-center text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                        >View Item</a
+                    >
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
