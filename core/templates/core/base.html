@@ -4,54 +4,72 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>{% block title %}{% endblock %} | Puddle</title>
+        <title>{% block title %}{% endblock %} | Django</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+
         <style type="text/tailwindcss">
             @layer components {
                 .btn {
-                    @apply inline-block px-6 py-3 text-lg font-semibold rounded shadow duration-200 text-white hover:scale-[1.01];
+                    @apply inline-block px-6 py-3 text-lg font-semibold rounded duration-200 text-white hover:scale-[1.01];
+                }
+                .link {
+                    @apply inline-block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-white duration-200 md:border-0 md:hover:text-blue-700;
                 }
             }
         </style>
         <link rel="stylesheet" href="style.css" />
     </head>
-    <body>
-        <nav class="p-6 flex justify-between items-center border-b border-gray-200">
-            <a href="/" class="text-xl font-semibold">Puddle</a>
-            <div class="space-x-2">
-                <a
-                    href="{% url 'item:new'%}"
-                    class="px-6 py-3 text-lg font-semibold hover:bg-gray-200 rounded duration-200"
-                    >New Item</a
+    <body style="background-image: linear-gradient(to left bottom, #dceaff, #d4efff, #ccf5ff, #c7faff, #c6fffc)">
+        <nav class="border-gray-200">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                <a href="/" class="flex items-center">
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Home</span>
+                </a>
+                <button
+                    data-collapse-toggle="navbar-solid-bg"
+                    type="button"
+                    class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    aria-controls="navbar-solid-bg"
+                    aria-expanded="false"
                 >
-                <a
-                    href="{% url 'item:items' %}"
-                    class="px-6 py-3 text-lg font-semibold hover:bg-gray-200 rounded duration-200"
-                    >Browse</a
-                >
-                {% if request.user.is_authenticated %}
-                <a
-                    href="{% url 'conversation:inbox' %}"
-                    class="px-6 py-3 text-lg font-semibold bg-teal-400 text-white rounded hover:bg-teal-500 duration-200"
-                    >Inbox</a
-                >
-                <a
-                    href="{% url 'dashboard:index'%}"
-                    class="px-6 py-3 text-lg font-semibold bg-gray-400 text-white rounded hover:bg-gray-500 duration-200"
-                    >Dashboard</a
-                >
-                {%else%}
-                <a
-                    href="{% url 'core:signup'%}"
-                    class="px-6 py-3 text-lg font-semibold bg-teal-400 text-white rounded hover:bg-teal-500 duration-200"
-                    >Sign Up</a
-                >
-                <a
-                    href="{% url 'core:login'%}"
-                    class="px-6 py-3 text-lg font-semibold bg-gray-400 text-white rounded hover:bg-gray-500 duration-200"
-                    >Log In</a
-                >
-                {%endif%}
+                    <span class="sr-only">Open main menu</span>
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                            clip-rule="evenodd"
+                        ></path>
+                    </svg>
+                </button>
+                <div class="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
+                    <ul
+                        class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700"
+                    >
+                        <li><a href="{% url 'item:new'%}" class="link">New Item</a></li>
+                        <li><a href="{% url 'item:items' %}" class="link">Browse</a></li>
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'conversation:inbox' %}" class="link">Inbox</a></li>
+                        <li><a href="{% url 'dashboard:index'%}" class="link">Dashboard</a></li>
+                        <li>
+                            <a href="{% url 'core:logout'%}" class="link bg-white">Log Out</a>
+                        </li>
+                        {%else%}
+                        <li>
+                            <a href="{% url 'core:signup'%}" class="link">Sign Up</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'core:login'%}" class="link">Log In</a>
+                        </li>
+                        {%endif%}
+                    </ul>
+                </div>
             </div>
         </nav>
         <div class="p-6">{% block content%}{% endblock%}</div>
@@ -75,5 +93,6 @@
                 </ul>
             </div>
         </footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </body>
 </html>

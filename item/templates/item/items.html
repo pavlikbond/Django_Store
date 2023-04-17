@@ -1,7 +1,9 @@
 {% extends 'core/base.html' %} {% block title %}Items{% endblock title %} {% block content %}
 <div class="pb-6 grid grid-cols-4 gap-4 mt-6">
     <div class="col-span-1 bg-gray-100 rounded p-4">
+        <h1 class="text-center text-2xl mb-4">Search and Filters</h1>
         <form method="get" action="{% url 'item:items' %}">
+            <label class="inline-block mb-2" for="query">Enter search criteria</label>
             <input
                 type="text"
                 name="query"
@@ -9,11 +11,11 @@
                 value="{{query}}"
                 placeholder="Find whatever you want"
             />
-            <button type="submit" class="btn bg-teal-400 my-4 w-full">Search</button>
+            <button type="submit" class="btn bg-teal-400 my-4">Search</button>
             <p class="font-semibold my-3 text-center">Categories</p>
             <ul class="inline-block w-full bg-white rounded shadow">
                 {% for category in categories %}
-                <li class="{% if category.id == category_id %} bg-gray-200 {% endif %}">
+                <li class="{% if category.id == category_id %} bg-gray-200 {% endif %} hover:bg-gray-100 duration-200">
                     <a
                         class="inline-block w-full h-full p-2"
                         href="{% url 'item:items' %}?query={{query}}&category={{category.id}}"
@@ -23,11 +25,14 @@
                 {% endfor %}
             </ul>
             <p class="font-semibold my-3 text-center">Clear Filters</p>
-            <a class="btn w-full bg-yellow-400 text-center" href="{% url 'item:items' %}">Clear</a>
+            <a class="btn bg-yellow-400 text-center" href="{% url 'item:items' %}">Clear</a>
         </form>
     </div>
     <div class="col-span-3">
         <div class="px-6 py-12 bg-gray-100 rounded-md">
+            {% if items|length == 0 %}
+            <h2 class="text-lg font-semibold">No Items Found</h2>
+            {% else %}
             <div class="grid grid-cols-3 gap-3 grid-flow-row-dense">
                 {% for item in items %}
                 <div
@@ -52,6 +57,7 @@
                 </div>
                 {% endfor %}
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

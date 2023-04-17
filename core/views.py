@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from item.models import Item, Category
 from .forms import SignUpForm
+from django.contrib.auth import logout
 # Create your views here, basically the html pages
 
 
@@ -26,3 +27,8 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'core/signup.html', {'form': form})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
